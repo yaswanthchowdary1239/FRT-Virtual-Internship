@@ -1,0 +1,150 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "botServices_MattTravel_bot_name": {
+            "defaultValue": "MattTravel-bot",
+            "type": "String"
+        },
+        "userAssignedIdentities_MattTravel_bot_externalid": {
+            "defaultValue": "/subscriptions/b37be90b-acf2-4ca6-a565-4d6753fea384/resourceGroups/LanguagesBot/providers/Microsoft.ManagedIdentity/userAssignedIdentities/MattTravel-bot",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.BotService/botServices",
+            "apiVersion": "2023-09-15-preview",
+            "name": "[parameters('botServices_MattTravel_bot_name')]",
+            "location": "global",
+            "tags": {
+                "WebAppLinked": "true"
+            },
+            "sku": {
+                "name": "S1"
+            },
+            "kind": "azurebot",
+            "properties": {
+                "displayName": "[parameters('botServices_MattTravel_bot_name')]",
+                "iconUrl": "[concat('//bot-framework.azureedge.net/bot-icons-v1/', parameters('botServices_MattTravel_bot_name'), '_OW6HB84B5J5EJjFDa11i3Wf4lL6sgGF7ARmOpC2g43uDrX.png')]",
+                "endpoint": "https://ProChatBot-bot-5de4.azurewebsites.net/api/messages",
+                "msaAppId": "b61d3f1a-a6ca-4622-a5c6-9f75fd31230f",
+                "msaAppTenantId": "0b108855-dcc8-4364-b089-9ad5a495e1c1",
+                "msaAppType": "UserAssignedMSI",
+                "msaAppMSIResourceId": "[parameters('userAssignedIdentities_MattTravel_bot_externalid')]",
+                "luisAppIds": [],
+                "isStreamingSupported": false,
+                "schemaTransformationVersion": "1.3",
+                "tenantId": "0b108855-dcc8-4364-b089-9ad5a495e1c1",
+                "isCmekEnabled": false,
+                "disableLocalAuth": false
+            }
+        },
+        {
+            "type": "Microsoft.BotService/botServices/channels",
+            "apiVersion": "2023-09-15-preview",
+            "name": "[concat(parameters('botServices_MattTravel_bot_name'), '/DirectLineChannel')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.BotService/botServices', parameters('botServices_MattTravel_bot_name'))]"
+            ],
+            "properties": {
+                "properties": {
+                    "sites": [
+                        {
+                            "siteName": "Default Site",
+                            "isEnabled": true,
+                            "isV1Enabled": true,
+                            "isV3Enabled": true,
+                            "isSecureSiteEnabled": false,
+                            "isBlockUserUploadEnabled": false
+                        }
+                    ],
+                    "extensionKey1": "VA6mjBnRD9k.3Sj3gatkdwMNkuQ9PkANsJj3eMqjaFwTxKAlnbEv8aI",
+                    "extensionKey2": "VA6mjBnRD9k.Y1Kzt3DCNwhqG06iOwccca_lDKdyU0j2YUIpcgHmuhQ"
+                },
+                "etag": "W/\"b98af952a8db1e4d4d3d246eb6f63bc15/12/2024 9:40:10 AM\"",
+                "channelName": "DirectLineChannel",
+                "location": "global"
+            }
+        },
+        {
+            "type": "Microsoft.BotService/botServices/channels",
+            "apiVersion": "2023-09-15-preview",
+            "name": "[concat(parameters('botServices_MattTravel_bot_name'), '/MsTeamsChannel')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.BotService/botServices', parameters('botServices_MattTravel_bot_name'))]"
+            ],
+            "properties": {
+                "properties": {
+                    "enableCalling": false,
+                    "incomingCallRoute": "graphPma",
+                    "isEnabled": true,
+                    "deploymentEnvironment": "CommercialDeployment",
+                    "acceptedTerms": true
+                },
+                "etag": "W/\"bfd284d1a8e61ecf5c27ef9d858944e05/12/2024 9:40:10 AM\"",
+                "channelName": "MsTeamsChannel",
+                "location": "global"
+            }
+        },
+        {
+            "type": "Microsoft.BotService/botServices/channels",
+            "apiVersion": "2023-09-15-preview",
+            "name": "[concat(parameters('botServices_MattTravel_bot_name'), '/OutlookChannel')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.BotService/botServices', parameters('botServices_MattTravel_bot_name'))]"
+            ],
+            "properties": {
+                "etag": "W/\"11ee53de932ce63b6d802a06a9beaf5f5/12/2024 9:40:10 AM\"",
+                "channelName": "OutlookChannel",
+                "location": "global"
+            }
+        },
+        {
+            "type": "Microsoft.BotService/botServices/channels",
+            "apiVersion": "2023-09-15-preview",
+            "name": "[concat(parameters('botServices_MattTravel_bot_name'), '/TelegramChannel')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.BotService/botServices', parameters('botServices_MattTravel_bot_name'))]"
+            ],
+            "properties": {
+                "properties": {
+                    "isValidated": true,
+                    "isEnabled": true
+                },
+                "etag": "W/\"d31a3c3a5ae62ce813dc8c92f0527b355/12/2024 9:40:10 AM\"",
+                "channelName": "TelegramChannel",
+                "location": "global"
+            }
+        },
+        {
+            "type": "Microsoft.BotService/botServices/channels",
+            "apiVersion": "2023-09-15-preview",
+            "name": "[concat(parameters('botServices_MattTravel_bot_name'), '/WebChatChannel')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.BotService/botServices', parameters('botServices_MattTravel_bot_name'))]"
+            ],
+            "properties": {
+                "properties": {
+                    "sites": [
+                        {
+                            "siteName": "Default Site",
+                            "isEnabled": true,
+                            "isWebchatPreviewEnabled": true,
+                            "isBlockUserUploadEnabled": false
+                        }
+                    ]
+                },
+                "etag": "W/\"0f66db039ea2e77df3c8149fd38f515c5/12/2024 9:40:10 AM\"",
+                "channelName": "WebChatChannel",
+                "location": "global"
+            }
+        }
+    ]
+}
